@@ -156,7 +156,7 @@ $lowestGpa = min(array_column($gpaResults, 'gpa'));
                 </tr>
                 <?php endforeach; ?>
             </tbody>
-        </table>
+        </table> 
     </div>
 </section>
 

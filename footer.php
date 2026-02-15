@@ -4,7 +4,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3><i class="fas fa-code"></i> SENG412 Group Project</h3>
+                <h3><i class="fas fa-code"></i> SENG412 Group 3b Project</h3>
                 <p>Internet Technologies and Web Applications Development</p>
                 <p>Department of Software Engineering</p>
             </div>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; <?= date('Y') ?> SENG412 Group Project. All Rights Reserved.</p>
+            <p>&copy; <?= date('Y') ?> SENG412 Group 3b Project. All Rights Reserved.</p>
         </div>
     </footer>
 
