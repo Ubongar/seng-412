@@ -332,10 +332,12 @@ tbody tr:last-child td {
 .stat-card .stat-icon.red { color: var(--danger); }
 
 .stat-card .stat-value {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: var(--primary);
     line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .stat-card .stat-label {

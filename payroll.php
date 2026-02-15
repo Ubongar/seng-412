@@ -51,17 +51,17 @@ sort($departments);
     </div>
     <div class="stat-card">
         <div class="stat-icon green"><i class="fas fa-naira-sign"></i></div>
-        <div class="stat-value">&naira;<?= number_format($totalGross, 2) ?></div>
+        <div class="stat-value">&#8358;<?= number_format($totalGross, 2) ?></div>
         <div class="stat-label">Total Gross Pay</div>
     </div>
     <div class="stat-card">
         <div class="stat-icon orange"><i class="fas fa-minus-circle"></i></div>
-        <div class="stat-value">&naira;<?= number_format($totalDeductions, 2) ?></div>
+        <div class="stat-value">&#8358;<?= number_format($totalDeductions, 2) ?></div>
         <div class="stat-label">Total Deductions</div>
     </div>
     <div class="stat-card">
         <div class="stat-icon red"><i class="fas fa-wallet"></i></div>
-        <div class="stat-value">&naira;<?= number_format($totalNet, 2) ?></div>
+        <div class="stat-value">&#8358;<?= number_format($totalNet, 2) ?></div>
         <div class="stat-label">Total Net Pay</div>
     </div>
 </div>
@@ -94,10 +94,10 @@ sort($departments);
                     <th>Employee Name</th>
                     <th>Department</th>
                     <th>Hours Worked</th>
-                    <th>Hourly Rate (&naira;)</th>
-                    <th>Gross Pay (&naira;)</th>
-                    <th>Deductions (&naira;)</th>
-                    <th>Net Pay (&naira;)</th>
+                    <th>Hourly Rate (&#8358;)</th>
+                    <th>Gross Pay (&#8358;)</th>
+                    <th>Deductions (&#8358;)</th>
+                    <th>Net Pay (&#8358;)</th>
                 </tr>
             </thead>
             <tbody id="payrollBody">
@@ -138,7 +138,7 @@ sort($departments);
     <p style="color: var(--text-light); line-height: 1.8;">
         <strong>Gross Pay</strong> = Hours Worked &times; Hourly Rate<br>
         <strong>Net Pay</strong> = Gross Pay &minus; Deductions<br><br>
-        <em>All amounts are in Nigerian Naira (&naira;). Deductions include tax, pension, and other statutory contributions.</em>
+        <em>All amounts are in Nigerian Naira (&#8358;). Deductions include tax, pension, and other statutory contributions.</em>
     </p>
 </div>
 
