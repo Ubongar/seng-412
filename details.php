@@ -1,12 +1,7 @@
 <?php
-/**
- * PERSONAL DETAILS PAGE - SENG412 Group Project
- * Displays personal details of all group members
- */
 include 'header.php';
 include 'db.php';
 
-// Fetch members
 $members = [];
 $result = $conn->query("SELECT * FROM members ORDER BY id");
 if ($result) {
@@ -15,7 +10,6 @@ if ($result) {
     }
 }
 
-// Generate initials from name
 function getInitials($name) {
     $parts = explode(' ', trim($name));
     $initials = '';
@@ -26,7 +20,6 @@ function getInitials($name) {
     return $initials;
 }
 
-// Generate a consistent color for each member
 $colors = [
     'linear-gradient(135deg, #1a365d, #2b6cb0)',
     'linear-gradient(135deg, #1a4731, #276749)',
@@ -40,14 +33,12 @@ $colors = [
 ];
 ?>
 
-<!-- Hero Section -->
 <section class="hero">
     <h1><i class="fas fa-id-card"></i> Personal Details</h1>
     <p class="subtitle">Meet Our Group Members</p>
     <p class="dept">Blood Group &bull; State of Origin &bull; Phone Number &bull; Hobbies</p>
 </section>
 
-<!-- Members Count -->
 <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fas fa-users"></i></div>
@@ -71,11 +62,15 @@ $colors = [
     </div>
 </div>
 
-<!-- Details Section -->
 <section class="section">
     <div class="section-header">
         <i class="fas fa-address-book"></i>
         <h2>Member Profiles</h2>
+    </div>
+    <div class="action-bar">
+        <button class="btn btn-primary" onclick="openAddMemberDetail()">
+            <i class="fas fa-user-plus"></i> Add Member
+        </button>
     </div>
 
     <div class="details-grid">
@@ -116,12 +111,19 @@ $colors = [
                     </div>
                 </div>
             </div>
+            <div class="detail-card-actions">
+                <button class="btn btn-sm btn-primary" onclick="openEditMemberDetail(<?= $m['id'] ?>)">
+                    <i class="fas fa-pen"></i> Edit
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteMemberDetail(<?= $m['id'] ?>, '<?= htmlspecialchars(addslashes($m['full_name'])) ?>')">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
         </div>
         <?php endforeach; ?>
     </div>
 </section>
 
-<!-- Summary Table -->
 <section class="section">
     <div class="section-header">
         <i class="fas fa-table"></i>
@@ -138,6 +140,7 @@ $colors = [
                     <th>State of Origin</th>
                     <th>Phone</th>
                     <th>Hobbies</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -150,12 +153,159 @@ $colors = [
                     <td><?= htmlspecialchars($m['state_of_origin']) ?></td>
                     <td><?= htmlspecialchars($m['phone']) ?></td>
                     <td><?= htmlspecialchars($m['hobbies']) ?></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-icon btn-primary" title="Edit" onclick="openEditMemberDetail(<?= $m['id'] ?>)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="btn btn-icon btn-danger" title="Delete" onclick="deleteMemberDetail(<?= $m['id'] ?>, '<?= htmlspecialchars(addslashes($m['full_name'])) ?>')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </section>
+
+<!-- Add/Edit Member Modal -->
+<div class="modal-overlay" id="detailMemberModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-user"></i> <span id="detailMemberModalTitle">Add Member</span></h3>
+            <button class="modal-close" onclick="closeModal('detailMemberModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="detailMemberEditId" value="">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Matric Number <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="detailMemberMatric" placeholder="e.g. 22/0001">
+                </div>
+                <div class="form-group">
+                    <label>Full Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="detailMemberName" placeholder="Full name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select class="form-control" id="detailMemberBlood">
+                        <option value="">Select...</option>
+                        <option value="A+">A+</option><option value="A-">A-</option>
+                        <option value="A">A</option>
+                        <option value="B+">B+</option><option value="B-">B-</option>
+                        <option value="B">B</option>
+                        <option value="O+">O+</option><option value="O-">O-</option>
+                        <option value="O">O</option>
+                        <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>State of Origin</label>
+                    <input type="text" class="form-control" id="detailMemberState" placeholder="e.g. Lagos State">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" class="form-control" id="detailMemberPhone" placeholder="e.g. 08012345678">
+            </div>
+            <div class="form-group">
+                <label>Hobbies</label>
+                <textarea class="form-control" id="detailMemberHobbies" placeholder="e.g. Football and gaming"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('detailMemberModal')">Cancel</button>
+            <button class="btn btn-success" onclick="saveMemberDetail()">
+                <i class="fas fa-save"></i> <span id="detailMemberSaveBtn">Save Member</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function openAddMemberDetail() {
+    document.getElementById('detailMemberEditId').value = '';
+    document.getElementById('detailMemberMatric').value = '';
+    document.getElementById('detailMemberName').value = '';
+    document.getElementById('detailMemberBlood').value = '';
+    document.getElementById('detailMemberState').value = '';
+    document.getElementById('detailMemberPhone').value = '';
+    document.getElementById('detailMemberHobbies').value = '';
+    document.getElementById('detailMemberModalTitle').textContent = 'Add Member';
+    document.getElementById('detailMemberSaveBtn').textContent = 'Save Member';
+    openModal('detailMemberModal');
+}
+
+function openEditMemberDetail(id) {
+    fetch('api.php?action=get&entity=member&id=' + id)
+        .then(function(r) { return r.json(); })
+        .then(function(result) {
+            if (result.success) {
+                var d = result.data;
+                document.getElementById('detailMemberEditId').value = d.id;
+                document.getElementById('detailMemberMatric').value = d.matric_no;
+                document.getElementById('detailMemberName').value = d.full_name;
+                document.getElementById('detailMemberBlood').value = d.blood_group;
+                document.getElementById('detailMemberState').value = d.state_of_origin;
+                document.getElementById('detailMemberPhone').value = d.phone;
+                document.getElementById('detailMemberHobbies').value = d.hobbies;
+                document.getElementById('detailMemberModalTitle').textContent = 'Edit Member';
+                document.getElementById('detailMemberSaveBtn').textContent = 'Update Member';
+                openModal('detailMemberModal');
+            } else {
+                showToast(result.message || 'Could not load member', 'error');
+            }
+        })
+        .catch(function() { showToast('Network error', 'error'); });
+}
+
+function saveMemberDetail() {
+    var editId = document.getElementById('detailMemberEditId').value;
+    var data = {
+        matric_no: document.getElementById('detailMemberMatric').value.trim(),
+        full_name: document.getElementById('detailMemberName').value.trim(),
+        blood_group: document.getElementById('detailMemberBlood').value,
+        state_of_origin: document.getElementById('detailMemberState').value.trim(),
+        phone: document.getElementById('detailMemberPhone').value.trim(),
+        hobbies: document.getElementById('detailMemberHobbies').value.trim()
+    };
+
+    if (!data.matric_no || !data.full_name) {
+        showToast('Please fill in matric number and full name', 'error');
+        return;
+    }
+
+    var action = editId ? 'update' : 'create';
+    if (editId) data.id = editId;
+
+    apiRequest(action, 'member', data)
+        .then(function(result) {
+            showToast(result.message, 'success');
+            closeModal('detailMemberModal');
+            setTimeout(function() { location.reload(); }, 800);
+        })
+        .catch(function(err) { showToast(err, 'error'); });
+}
+
+function deleteMemberDetail(id, name) {
+    showConfirm(
+        'Delete Member',
+        'Are you sure you want to remove "' + name + '"? This will also remove their GPA records.',
+        function() {
+            apiRequest('delete', 'member', { id: id })
+                .then(function(result) {
+                    showToast(result.message, 'success');
+                    setTimeout(function() { location.reload(); }, 800);
+                })
+                .catch(function(err) { showToast(err, 'error'); });
+        }
+    );
+}
+</script>
 
 <?php
 $conn->close();

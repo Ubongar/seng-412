@@ -1,18 +1,12 @@
 <?php
-/**
- * Database Connection
- * SENG412 Group Project
- */
 
 $host = 'localhost';
 $username = 'root';
 $password = '';
 $database = 'seng412_project';
 
-// Create connection
 $conn = new mysqli($host, $username, $password, $database);
 
-// Check connection
 if ($conn->connect_error) {
     die('<div style="text-align:center;padding:50px;font-family:Poppins,sans-serif;">
         <h2 style="color:#e53e3e;">Database Connection Failed</h2>
@@ -21,6 +15,5 @@ if ($conn->connect_error) {
     </div>');
 }
 
-// Set charset
 $conn->set_charset("utf8mb4");
 ?>

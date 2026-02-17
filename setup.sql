@@ -1,21 +1,13 @@
--- ============================================================
 -- SENG412 Group Project - Database Setup
--- Internet Technologies and Web Applications Development
--- Run this file in phpMyAdmin or MySQL CLI
--- ============================================================
 
 CREATE DATABASE IF NOT EXISTS seng412_project;
 USE seng412_project;
 
--- Drop existing tables (in correct order for foreign keys)
 DROP TABLE IF EXISTS gpa_records;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS members;
 
--- ============================================================
--- Members Table
--- ============================================================
 CREATE TABLE members (
     id INT AUTO_INCREMENT PRIMARY KEY,
     matric_no VARCHAR(20) NOT NULL,
@@ -26,9 +18,6 @@ CREATE TABLE members (
     hobbies TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ============================================================
--- Courses Table
--- ============================================================
 CREATE TABLE courses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     course_code VARCHAR(20) NOT NULL,
@@ -38,9 +27,6 @@ CREATE TABLE courses (
     lecturer VARCHAR(100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ============================================================
--- Employees Table (Payroll - 50 employees)
--- ============================================================
 CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY,
     emp_id VARCHAR(10) NOT NULL,
@@ -51,9 +37,6 @@ CREATE TABLE employees (
     deductions DECIMAL(10,2) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ============================================================
--- GPA Records Table
--- ============================================================
 CREATE TABLE gpa_records (
     id INT AUTO_INCREMENT PRIMARY KEY,
     member_id INT NOT NULL,
@@ -65,9 +48,6 @@ CREATE TABLE gpa_records (
     FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ============================================================
--- Insert Group Members
--- ============================================================
 INSERT INTO members (matric_no, full_name, blood_group, state_of_origin, phone, hobbies) VALUES
 ('21/2352', 'Ameh David Ojoajogwu', 'A+', 'Kogi State', '09025316573', 'Football and listening to music'),
 ('22/0209', 'Anabraba Dein Emmanuel', 'O+', 'Rivers State', '09150783336', 'Football and gaming'),
@@ -79,9 +59,6 @@ INSERT INTO members (matric_no, full_name, blood_group, state_of_origin, phone, 
 ('21/0532', 'Arise Olatunbosun Joseph', 'A+', 'Ekiti State', '09164452032', 'Playing games and coding'),
 ('22/0242', 'Atoba Samad Oladeji', 'O+', 'Osun State', '08138259601', 'Listening to music, working');
 
--- ============================================================
--- Insert Courses
--- ============================================================
 INSERT INTO courses (course_code, course_title, credit_units, department, lecturer) VALUES
 ('SENG412', 'Internet Technologies and Web Applications Development', 3.0, 'Software Engineering', 'Idowu Sunday'),
 ('COSC430', 'Hands-on JAVA Training', 1.0, 'Software Engineering', 'Bankole Oloruntobi'),
@@ -93,9 +70,6 @@ INSERT INTO courses (course_code, course_title, credit_units, department, lectur
 ('SENG406', 'Formal Methods Specifications in Software Engineering', 3.0, 'Software Engineering', 'Mgbeahuruike Emmanuel Oluchukwu'),
 ('GEDS420', 'Biblical Principles in Personal and Professional Life', 3.0, 'Software Engineering', 'Eregare Emmanuel');
 
--- ============================================================
--- Insert 50 Employees for Payroll
--- ============================================================
 INSERT INTO employees (emp_id, full_name, department, hours_worked, hourly_rate, deductions) VALUES
 ('EMP001', 'Adebayo Oluwaseun', 'Human Resources', 40.00, 2500.00, 12000.00),
 ('EMP002', 'Okonkwo Chidinma', 'Finance', 42.00, 3200.00, 15000.00),
@@ -148,52 +122,38 @@ INSERT INTO employees (emp_id, full_name, department, hours_worked, hourly_rate,
 ('EMP049', 'Adegoke Omowunmi', 'Finance', 40.00, 3300.00, 16000.00),
 ('EMP050', 'Nnaji Chiemerie', 'Admin', 38.00, 2200.00, 10500.00);
 
--- ============================================================
--- Insert GPA Records (9 students x 9 courses)
--- Grade Scale: A(80-100)=5, B(60-79)=4, C(50-59)=3, D(45-49)=2, E(40-44)=1, F(0-39)=0
--- ============================================================
-
--- Ameh David Ojoajogwu (member_id=1) — Rank 6, GPA 4.16
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (1, 1, 82, 'A', 5), (1, 2, 80, 'A', 5), (1, 3, 72, 'B', 4), (1, 4, 78, 'B', 4),
 (1, 5, 75, 'B', 4), (1, 6, 68, 'B', 4), (1, 7, 74, 'B', 4), (1, 8, 66, 'B', 4), (1, 9, 70, 'B', 4);
 
--- Anabraba Dein Emmanuel (member_id=2) — Rank 8, GPA 3.88
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (2, 1, 72, 'B', 4), (2, 2, 68, 'B', 4), (2, 3, 65, 'B', 4), (2, 4, 70, 'B', 4),
 (2, 5, 74, 'B', 4), (2, 6, 66, 'B', 4), (2, 7, 70, 'B', 4), (2, 8, 58, 'C', 3), (2, 9, 72, 'B', 4);
 
--- Aneke Kamsiyochukwu Anthony (member_id=3) — Rank 1, GPA 4.88
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (3, 1, 90, 'A', 5), (3, 2, 85, 'A', 5), (3, 3, 83, 'A', 5), (3, 4, 88, 'A', 5),
 (3, 5, 86, 'A', 5), (3, 6, 82, 'A', 5), (3, 7, 84, 'A', 5), (3, 8, 78, 'B', 4), (3, 9, 92, 'A', 5);
 
--- Anuriam Isaac Chigozirim (member_id=4) — Rank 3, GPA 4.52
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (4, 1, 84, 'A', 5), (4, 2, 82, 'A', 5), (4, 3, 76, 'B', 4), (4, 4, 72, 'B', 4),
 (4, 5, 81, 'A', 5), (4, 6, 80, 'A', 5), (4, 7, 74, 'B', 4), (4, 8, 68, 'B', 4), (4, 9, 78, 'B', 4);
 
--- Anyaehie Chijike Clinton (member_id=5) — Rank 9, GPA 3.76
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (5, 1, 72, 'B', 4), (5, 2, 70, 'B', 4), (5, 3, 65, 'B', 4), (5, 4, 68, 'B', 4),
 (5, 5, 73, 'B', 4), (5, 6, 55, 'C', 3), (5, 7, 66, 'B', 4), (5, 8, 54, 'C', 3), (5, 9, 74, 'B', 4);
 
--- Anyahuru Oluebube Daniel (member_id=6) — Rank 4, GPA 4.40
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (6, 1, 76, 'B', 4), (6, 2, 82, 'A', 5), (6, 3, 80, 'A', 5), (6, 4, 75, 'B', 4),
 (6, 5, 83, 'A', 5), (6, 6, 70, 'B', 4), (6, 7, 72, 'B', 4), (6, 8, 68, 'B', 4), (6, 9, 74, 'B', 4);
 
--- Archie Michael Ubong (member_id=7) — Rank 5, GPA 4.28
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (7, 1, 74, 'B', 4), (7, 2, 80, 'A', 5), (7, 3, 72, 'B', 4), (7, 4, 76, 'B', 4),
 (7, 5, 80, 'A', 5), (7, 6, 70, 'B', 4), (7, 7, 68, 'B', 4), (7, 8, 66, 'B', 4), (7, 9, 72, 'B', 4);
 
--- Arise Olatunbosun Joseph (member_id=8) — Rank 2, GPA 4.64
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (8, 1, 85, 'A', 5), (8, 2, 82, 'A', 5), (8, 3, 75, 'B', 4), (8, 4, 80, 'A', 5),
 (8, 5, 84, 'A', 5), (8, 6, 72, 'B', 4), (8, 7, 83, 'A', 5), (8, 8, 70, 'B', 4), (8, 9, 88, 'A', 5);
 
--- Atoba Samad Oladeji (member_id=9) — Rank 7, GPA 4.04
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (9, 1, 76, 'B', 4), (9, 2, 82, 'A', 5), (9, 3, 68, 'B', 4), (9, 4, 72, 'B', 4),
 (9, 5, 74, 'B', 4), (9, 6, 66, 'B', 4), (9, 7, 70, 'B', 4), (9, 8, 64, 'B', 4), (9, 9, 72, 'B', 4);

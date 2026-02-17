@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.php" class="nav-brand">
@@ -45,5 +44,4 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="main-content">
