@@ -57,7 +57,8 @@ INSERT INTO members (matric_no, full_name, blood_group, state_of_origin, phone, 
 ('22/0279', 'Anyahuru Oluebube Daniel', 'O+', 'Abia State', '07035281949', 'Art and building'),
 ('22/0044', 'Archie Michael Ubong', 'O+', 'Akwa Ibom State', '07016311706', 'Art and building'),
 ('21/0532', 'Arise Olatunbosun Joseph', 'A+', 'Ekiti State', '09164452032', 'Playing games and coding'),
-('22/0242', 'Atoba Samad Oladeji', 'O+', 'Osun State', '08138259601', 'Listening to music, working');
+('22/0242', 'Atoba Samad Oladeji', 'O+', 'Osun State', '08138259601', 'Listening to music, working'),
+('22/0188', 'Anaele Michael', 'AA', 'Imo State', '09136257088', 'Football and drumming');
 
 INSERT INTO courses (course_code, course_title, credit_units, department, lecturer) VALUES
 ('SENG412', 'Internet Technologies and Web Applications Development', 3.0, 'Software Engineering', 'Idowu Sunday'),
@@ -157,3 +158,7 @@ INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
 (9, 1, 76, 'B', 4), (9, 2, 82, 'A', 5), (9, 3, 68, 'B', 4), (9, 4, 72, 'B', 4),
 (9, 5, 74, 'B', 4), (9, 6, 66, 'B', 4), (9, 7, 70, 'B', 4), (9, 8, 64, 'B', 4), (9, 9, 72, 'B', 4);
+
+INSERT INTO gpa_records (member_id, course_id, score, grade, grade_point) VALUES
+(10, 1, 78, 'B', 4), (10, 2, 74, 'B', 4), (10, 3, 70, 'B', 4), (10, 4, 82, 'A', 5),
+(10, 5, 76, 'B', 4), (10, 6, 64, 'B', 4), (10, 7, 72, 'B', 4), (10, 8, 60, 'B', 4), (10, 9, 80, 'A', 5);
